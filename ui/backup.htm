@@ -1,0 +1,75 @@
+<html>
+
+<head>
+  <title>Hello</title>
+  <style>
+    html {
+      background: rgb(22, 22, 22);
+      color: fuchsia;
+    }
+
+    body {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    #shit {
+      display: block;
+      width: 200px;
+      height: 200px;
+      padding: 50px;
+      background-color: aqua;
+    }
+  </style>
+</head>
+
+
+
+
+<body>
+  <h1 id="headText"> Hellllo</h1>
+  <button id="buttonEl">Shit!</button>
+</body>
+
+
+
+<script type="text/tiscript">
+  const DEFAULT_WIDTH = 360dip;
+  
+  var (sx,sy,sw,sh) = View.screenBox(0,#workarea,#rectw);
+  
+  // var w = self.toPixels(DEFAULT_WIDTH, #width);
+  // var h = self.intrinsicHeight(w);
+  var h = 720;
+  var w = 500;
+  
+  view.move( sx + (sw - w) / 2, sy + (sh - h) / 2, w,h, true );
+  
+</script>
+
+
+
+<script type="text/tiscript">
+  function self.ready() {
+    // calling native method defined in main.cpp
+    var btn = self#buttonEl;
+    var headText = self#headText;
+
+    // $(body).text = view.frame.nativeMessage();
+
+    // var fBtn = self#buttonEl;
+    // console.log("asdf");
+    // $(body).text = view.frame.fuck();
+
+    // $(self#buttonEl).text = view.frame.fuck();
+
+    btn.onClick = function() {
+      headText.text = view.frame.fuck();
+    }
+
+  }
+</script>
+
+
+
+</html>
