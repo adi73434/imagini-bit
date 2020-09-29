@@ -1,9 +1,27 @@
+
 html {
-    background-color: rgb(20, 20, 20);
-    color: rgb(240, 240, 240);
+    var(col-text-main): rgb(240, 240, 240);
+    var(col-text-dark): rgb(15, 15, 15);
+    var(col-text-subtle): rgb(200, 200, 200);
+
+    var(col-dark-main): rgb(20, 20, 20);
+
+    var(col-accent-pink): rgb(216, 48, 118);
+    var(col-accent-gray): rgb(220, 220, 220);
+
+    var(col-feedback-positive): rgb(255, 128, 146);
+
+    margin: 0;
+    padding: 0;
+    
+    background-color: var(col-dark-main,#ff0);
+    color: var(col-text-main,#ff0);
+    
 }
-
-
+body {
+    margin: 0;
+    padding: 0;
+}
 /* -------------------------------------------------------------------------- */
 /*  */
 /* -------------------------------------------------------------------------- */
@@ -20,39 +38,143 @@ html {
 }
 .text-subtle-comment {
     font-style: oblique;
-    color: rgb(200, 200, 200);
+    color: var(col-text-subtle,#ff0);
 }
 
 
 /* -------------------------------------------------------------------------- */
-/*  */
+/*  Elements */
 /* -------------------------------------------------------------------------- */
-
 
 div.main-container {
-    margin-left: 0;
-    width: max-content;
+    /* size: *; */
+    flow: grid(1 1 1 1,
+               2 2 2 2,
+               3 3 3 3,
+               4 5 0 0,
+               6 0 0 0);
+
+    border-spacing:8dip;
+    /* Size of container. Max size any child can become */
+    width: 350dip;
+
+    /* Center... manually on the left so it doesn't drift to the center when window is stretched */
+    margin-left: 25dip;
+    margin-right: auto;
+    margin-bottom: 10dip;
 }
 
-div.file-drop-container {
-    
+/* Allows the elements in the flow to have their own size */
+div.main-container > * {
+    width: max-content;
 }
 
 div.file-drop-zone {
     /* Expose to TiScript */
     prototype: FileDropZone;
-    size: 200px;
+
+    /* Size of square */
+    size: 200;
     border: 4px dashed;
 
     /* Center text */
     text-align: center;
     vertical-align: middle;
-
-    /* Center box in container */
-    margin-left: auto;
-    margin-right: auto;
 }
 
 div.file-drop-zone.active-target {
-    background: rgb(255, 128, 146);
+    background: var(col-feedback-positive,#ff0);
 }
+
+input#save-size {
+    /* 33% of main-container */
+    width: 33%;
+    background: var(col-accent-gray,#ff0);
+    color: var(col-text-dark,#ff0);
+}
+
+button#save-as {
+    prototype: SaveDialogue;
+}
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*  Styles */
+/* -------------------------------------------------------------------------- */
+
+
+.button-normal {
+    background: var(col-accent-gray,#ff0);
+    border: none;
+    color: var(col-text-dark,#ff0);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(col-accent-pink,#ff0);
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: gren;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: yellow;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px blue;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  

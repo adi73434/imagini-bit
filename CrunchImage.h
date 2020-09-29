@@ -20,7 +20,7 @@ class CrunchImage : public sciter::om::asset<CrunchImage>
 	// -------------------------------------------------------------------------
 	// User input variables
 	// -------------------------------------------------------------------------
-	std::vector<sciter::value> inputImageLocations;
+	std::vector<sciter::value> inputImageLocations = { "Default - no value" };
 	std::string outputImageLocation;
 	int outputImageDesiredSizeInBytes;
 

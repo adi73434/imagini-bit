@@ -32,8 +32,13 @@ class frame : public sciter::window
 
 int uimain(std::function<int()> run)
 {
-
-	sciter::archive::instance().open(aux::elements_of(resources)); // bind resources[] (defined in "resources.cpp") with the archive
+	// enable features to be used from script
+	SciterSetOption(NULL, SCITER_SET_SCRIPT_RUNTIME_FEATURES,
+       ALLOW_FILE_IO |
+       ALLOW_SOCKET_IO |
+       ALLOW_EVAL |
+       ALLOW_SYSINFO );
+	// SciterSetOption(NULL, SCITER_SET_SCRIPT_RUNTIME_FEATURES, ALLOW_SYSINFO );
 
 	// -------------------------------------------------------------------------
 	// Exposing Logic to UI
@@ -42,6 +47,8 @@ int uimain(std::function<int()> run)
 	// -------------------------------------------------------------------------
 	//
 	// -------------------------------------------------------------------------
+
+	sciter::archive::instance().open(aux::elements_of(resources)); // bind resources[] (defined in "resources.cpp") with the archive
 
 	sciter::om::hasset<frame> pwin = new frame();
 
