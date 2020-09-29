@@ -1,94 +1,25 @@
 <html>
-  <head>
-    <title></title>
-    <style>
-      
-      div.file-drop-zone {
-        prototype: FileDropZone;
-        size:200px;
-        color: gray;
-        border: 4px dashed;
-        vertical-align:middle;
-        text-align:center;
-        margin:1em;
-      }
-      div.file-drop-zone.active-target {
-        background:gold;
-      }
-      
-    </style>
-    <script type="text/tiscript">
-    
-    class FileDropZone : Element 
-    {
-      this var filter;  
-      this var files = []; // filtered files
 
-      function checkFiles(list) {
-        if(typeof list != #array )
-          list = [list];
-        const patterns = this.filter;
-        function flt(fn) {
-          for(var x in patterns)
-            if( fn like x ) return true;
-          return false;
-        }
-        this.files = list.filter(flt);
-        return this.files.length > 0;
-      }
+<head>
+  <title>imagini-bit</title>
+  <style type="text/css">
+    @import "css/main.css";
+  </style>
+  <script type="text/tiscript" src="tis/main.tis"></script>
+</head>
 
-      function attached() {
-        this.filter = (this.attributes["accept-drop"] || "*").split(";");
-        debug filter: this.filter;
-      }
-
-      event dragaccept (evt) {
-        if(evt.draggingDataType == #file && this.checkFiles(evt.dragging))
-          return true; // accept only files
-        return false;
-      }
-
-      event dragenter (evt) 
-      {
-        this.attributes.addClass("active-target");
-        return true;
-      }  
-
-      event dragleave (evt) 
-      {
-        this.attributes.removeClass("active-target");
-        return true;
-      }  
-
-      event drag (evt) 
-      {
-        stdout.println(evt.x,evt.y);
-        return true;
-      }  
-
-      event drop (evt) 
-      {
-        this.attributes.removeClass("active-target");
-        view.msgbox(#information, String.printf("Dropped:%V",this.files));
-        return true;
-      }  
-      
-    }
-    
-    </script>
-  </head>
 <body>
+  <div class="main-container">
+    <h2>Drag and Drop to compress</h2>
+    <h3 class="text-subtle-comment">Outputs as JPEG</h3>
 
-  <h2>D&amp;D files from Windows Shell to DOM elements</h2> 
+    <div class="file-drop-container">
+      <div class="file-drop-zone" accept-drop="*.gif;*.png;*.jpg;*.jpeg;*.tiff">
+        Drop image here
+      </div>
+    </div>
 
-  <div.file-drop-zone>
-    Drop any file here
   </div>
-
-  <div.file-drop-zone accept-drop="*.gif;*.png;*.jpg;*.jpeg;*.tiff">
-    Drop only images here
-  </div>
-
-
 </body>
+
 </html>

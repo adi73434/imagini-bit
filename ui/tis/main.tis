@@ -1,0 +1,98 @@
+class FileDropZone: Element {
+    // File types that will be accepted
+    this var filter;
+    // Result of filtered files
+    this var files = [];
+
+    // This is called by dragaccept per every move
+    function checkFiles(list) {
+        debug info: list;
+        if (typeof list != #array)
+            list = [list];
+        const availableFilenames = this.filter;
+
+        // Checks that all the names of the dragged files match the filter (file type)
+        function filterByFilename(inputFilename) {
+            for (var x in availableFilenames)
+                if (inputFilename like x) return true;
+            return false;
+        }
+        // Filter the list of dragged files
+        this.files = list.filter(filterByFilename);
+        // If there's more than 0 files in array
+        return this.files.length > 0;
+    }
+
+    function attached() {
+        this.filter = (this.attributes["accept-drop"] || "*").split(";");
+        debug filter: this.filter;
+    }
+
+    // User dragging file over element
+    event dragaccept(evt) {
+        stdout.println("dragaccept");
+        // If the data type is a file, and checkFile returns length of file over 0
+        // TODO: Stop calling checkFiles on every mouse pixel movement as it is currently running the whole of checkFiles when you do that
+        if (evt.draggingDataType == #file && this.checkFiles(evt.dragging))
+            return true; // accept only files
+        return false;
+    }
+
+    event dragenter(evt) {
+        this.attributes.addClass("active-target");
+        return true;
+    }
+
+    event dragleave(evt) {
+        this.attributes.removeClass("active-target");
+        return true;
+    }
+
+    event drag(evt) {
+        // stdout.println(evt.x, evt.y);
+        return true;
+    }
+
+    event drop(evt) {
+        stdout.println("drop");
+        this.attributes.removeClass("active-target");
+        // view.msgbox(#information, String.printf("Dropped:%V", this.files));
+
+        // -----------------------------------------------------------------------------
+        // Return last files/default
+        // -----------------------------------------------------------------------------
+        // var cppRawNames = CrunchImage.returnTestString();
+        // var cppFormattedNames = [];
+        // for (var x in cppFileNames) {
+        //     if (x.length > 0) {
+        //         cppFormattedNames.push(x)
+        //     }
+        // }
+        var printStringTest = "Previous files: " + CrunchImage.returnTestString();
+        view.msgbox(#information, printStringTest, "C++ Class Function Return");
+        
+        debug info: this.files;
+
+        // Pass to C++
+        var voidMeLol = CrunchImage.uiCaptureInputImageLocation(this.files);
+
+        var printName = "New files: " + CrunchImage.returnTestString();
+        view.msgbox(#information, printName.toString(), "C++ Class Function Return");
+        return true;
+    }
+
+}
+
+// -----------------------------------------------------------------------------
+// Default Window Size
+// -----------------------------------------------------------------------------
+const DEFAULT_WIDTH = 360 dip;
+
+var (sx, sy, sw, sh) = View.screenBox(0, #workarea, #rectw);
+
+// var w = self.toPixels(DEFAULT_WIDTH, #width);
+// var h = self.intrinsicHeight(w);
+var w = 400;
+var h = 400
+
+view.move(sx + (sw - w) / 2, sy + (sh - h) / 2, w, h, true);

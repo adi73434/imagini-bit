@@ -108,8 +108,12 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CrunchImage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sciter-sdk\include\sciter-win-main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CrunchImage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

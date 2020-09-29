@@ -1,0 +1,58 @@
+html {
+    background-color: rgb(20, 20, 20);
+    color: rgb(240, 240, 240);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*  */
+/* -------------------------------------------------------------------------- */
+
+
+.text-italic {
+    font-style: italic;
+}
+.text-oblique {
+    font-style: oblique;
+}
+.text-bold {
+    font-style: bold;
+}
+.text-subtle-comment {
+    font-style: oblique;
+    color: rgb(200, 200, 200);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*  */
+/* -------------------------------------------------------------------------- */
+
+
+div.main-container {
+    margin-left: 0;
+    width: max-content;
+}
+
+div.file-drop-container {
+    
+}
+
+div.file-drop-zone {
+    /* Expose to TiScript */
+    prototype: FileDropZone;
+    size: 200px;
+    border: 4px dashed;
+
+    /* Center text */
+    text-align: center;
+    vertical-align: middle;
+
+    /* Center box in container */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.file-drop-zone.active-target {
+    background: rgb(255, 128, 146);
+}
