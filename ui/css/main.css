@@ -52,7 +52,8 @@ div.main-container {
                2 2 2 2,
                3 3 3 3,
                4 5 0 0,
-               6 0 0 0);
+               6 0 0 0,
+               7 0 0 0);
 
     border-spacing:8dip;
     /* Size of container. Max size any child can become */
@@ -86,15 +87,15 @@ div.file-drop-zone.active-target {
     background: var(col-feedback-positive,#ff0);
 }
 
-input#save-size {
+input#save-size-choice {
     /* 33% of main-container */
     width: 33%;
     background: var(col-accent-gray,#ff0);
     color: var(col-text-dark,#ff0);
 }
 
-button#save-as {
-    prototype: SaveDialogue;
+button#compute-save-as {
+    prototype: ComputeAndSave;
 }
 
 

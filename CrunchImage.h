@@ -1,8 +1,9 @@
+#pragma once
+
 #include <string>
 #include <vector>
 #include "sciter-x.h"
 #include "sciter-x-window.hpp"
-
 
 class CrunchImage : public sciter::om::asset<CrunchImage>
 {
@@ -11,82 +12,133 @@ class CrunchImage : public sciter::om::asset<CrunchImage>
 	{
 	}
 
-	std::string yeetString();
 
-	sciter::value returnTestString();
+
+	// -------------------------------------------------------------------------
+	// SECTION: Set Input Image location URL
+	// -------------------------------------------------------------------------
+
+	// Image input location URL, accepts multiple strings
+	std::vector<sciter::value> inputImageLocations = {"Default - no value"};
+
+	// TiScript -> C++ Image input location
+	sciter::value FROMUISetInputImageLocation(sciter::value uiInput);
+
+	// !SECTION
 
 
 
 	// -------------------------------------------------------------------------
-	// User input variables
+	// SECTION: Set Intended Size
 	// -------------------------------------------------------------------------
-	std::vector<sciter::value> inputImageLocations = { "Default - no value" };
-	std::string outputImageLocation;
+
+	// User's desired JPEG output size
 	int outputImageDesiredSizeInBytes;
 
-	//// Get user input variables
+	// TiScript -> C++ Desired output image size
+	sciter::value FROMUISetImageDesiredSize();
 
-	// Get image input location from the UI
-	sciter::value uiCaptureInputImageLocation(sciter::value uiInput);
-
-	// Get image output location from the UI
-	sciter::value uiCaptureOutputImageLocation();
-
-	// Get desired output image size from the UI
-	void uiCaptureImageDesiredSize();
+	// !SECTION
 
 
 
 	// -------------------------------------------------------------------------
-	// Read Original Image
+	// SECTION: Set Output Image Location URL
 	// -------------------------------------------------------------------------
 
-	// Image, placeholder. Get the original image file based on user image input location
-	// I think I'll need to create a variable to hold this, and then the function to shit it out into that var?
-	// idk. I am not programmer
-	unsigned char readOriginalImageFile();
+	// Image output lucation URL
+	// TODO: Figure out how to specify multiple output paths/names
+	// Will probably allow user only to select folder, then make the output name the same as the input - just with a
+	// specified prefix
+	std::string outputImageLocation;
+
+	// TiScript -> C++ Image output location
+	sciter::value FROMUISetOutputImageLocation();
+
+	// !SECTION
 
 
 
 	// -------------------------------------------------------------------------
-	// Compression
+	// SECTION: Click Compute/Save As button
+	// -------------------------------------------------------------------------
+
+	// What the button click wil do: 0 = Compute; 1 = Save As;
+	int uiButtonState = 0;
+
+
+
+	// TiScript -> C++ UI Button Click to Compute/Save As
+	sciter::value FROMUIComputeSaveButtonClick();
+
+	// C++ -> TiScript Update UI Button text
+	sciter::value TOUIUpdateCompeSaveButtonText();
+
+	// User clicked to start computing JPEG
+	sciter::value triggerComputeJpeg();
+
+	// User confirmed to save image as it was last generated: Commit compressed image with last parameters
+	sciter::value triggerSaveToDisk();
+	// !SECTION
+
+
+
+	// -------------------------------------------------------------------------
+	// SECTION: UI Output
+	// -------------------------------------------------------------------------
+
+	// C++ -> TiScript Test
+	sciter::value TOUIReturnTestString();
+
+	// C++ -> TiScript Update UI element showing the generated JPEG size
+	sciter::value TOUIShowGeneratedImageSizeInUi();
+
+	// !SECTION
+
+
+
+	// -------------------------------------------------------------------------
+	// SECTION: Compression
 	// -------------------------------------------------------------------------
 
 	// Default compression parameters, adjusted as the output size is auto-matched to desired size
 	std::string placeholder_compressionParameter1;
 	std::string placeholder_compressionParameter2;
 	std::string placeholder_compressionParameter3;
-	int placeholder_outputImageOutcomeSizeInBytes;
 
-	// Compress the read image to a file
-	void compressImageToJpegFile();
+	// Hold the outcome size of the specified compression parameters
+	struct compressionParameterOutcomeSize
+	{
+		int outcomeSizeInBytes;
+		std::string placeholder_compressionParameter1;
+		std::string placeholder_compressionParameter2;
+		std::string placeholder_compressionParameter3;
+	};
 
-	// Check the compressed image size against the desired size
-	void evaluateCompressedImageSize();
-
-	// Use compressImageToJpegFile and evaluateCompressedImageSize until output JPEG size is near desired size
-	void compressImageUntilMatchInSize();
+	// Keep track of what compression parameters resulted in what JPEG size
+	std::vector<compressionParameterOutcomeSize> compressionParameterOutcomeSizeHistory;
 
 
+	// Image, placeholder. Get the original image file based on user image input location
+	// I think I'll need to create a variable to hold this, and then the function to shit it out into that var?
+	// idk. I am not programmer
+	unsigned char readOriginalImageFile();
 
-	// -------------------------------------------------------------------------
-	// Confirmation
-	// -------------------------------------------------------------------------
+	// Compress the read image to a JPEG
+	void compressImageToJpeg();
 
-	// Output to UI the generated size
-	sciter::string showGeneratedImageSizeInUi();
+	// Compress the JPEG and check it against desired size
+	void compressAndEvaluateSize();
 
-	// User confirmed to save image as it was last generated: Commit compressed image with last parameters
-	void comitCompressedImageToDisk();
-
+	// !SECTION
 
 
 	// -----------------------------------------------------------------------------
-	// Expose to Sciter
+	// SECTION: Expose to Sciter
 	// -----------------------------------------------------------------------------
 	SOM_PASSPORT_BEGIN(CrunchImage)
-	SOM_FUNCS(
-		SOM_FUNC(returnTestString),
-		SOM_FUNC(uiCaptureInputImageLocation));
+	SOM_FUNCS(SOM_FUNC(TOUIReturnTestString), SOM_FUNC(FROMUISetInputImageLocation),
+			  SOM_FUNC(FROMUISetImageDesiredSize));
 	SOM_PASSPORT_END;
+	// !SECTION
 };

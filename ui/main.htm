@@ -9,6 +9,13 @@
 </head>
 
 <body>
+  <!--
+    Store stuff like user-selected default size in here? Would have to use JSON/config file or something
+    or probaly just use *only* the config file and make it easily user-readable
+  -->
+  <!-- <div class="hidden-settings">
+
+  </div> -->
   <div class="main-container">
     <h2>Drag and Drop to compress</h2>
     <h3 class="text-subtle-comment">Outputs as JPEG</h3>
@@ -17,10 +24,18 @@
       Drop image here
     </div>
 
-    <p>Save Size (KiB)</p>
-    <input id="save-size" type="integer" value="7168" />
+    <p>Intended Size (KiB)</p>
+    <input id="save-size-choice" type="integer" value="7168" />
 
-    <button id="save-as" class="button-normal">Save As</button>
+    <p>Actual Size (KiB)</p>
+    <input id="save-size-result" type="integer" value="0" />
+
+    <!-- 
+      This will first be "Compute", after which it will update the Actual Size.
+      Once the image is computed, it'll change the button state so that the next click is "Save"
+    -->
+    <button id="compute-save-as" class="button-normal">Compute</button>
+
   </div>
 </body>
 

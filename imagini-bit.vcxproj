@@ -111,9 +111,11 @@
     <ClCompile Include="CrunchImage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sciter-sdk\include\sciter-win-main.cpp" />
+    <ClCompile Include="SelectNativeExplorer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrunchImage.h" />
+    <ClInclude Include="SelectNativeExplorer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

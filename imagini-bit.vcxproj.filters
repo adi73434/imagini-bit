@@ -24,9 +24,15 @@
     <ClCompile Include="CrunchImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SelectNativeExplorer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrunchImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectNativeExplorer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

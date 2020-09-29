@@ -1,112 +1,159 @@
 class FileDropZone: Element {
-    // File types that will be accepted
-    this
-    var filter;
-    // Result of filtered files
-    this
-    var files = [];
+	// File types that will be accepted
+	this
+	var filter;
+	// Result of filtered files
+	this
+	var files = [];
 
-    // This is called by dragaccept per every move
-    function checkFiles(list) {
-        debug info: list;
-        if (typeof list != #array)
-            list = [list];
-        const availableFilenames = this.filter;
+	// This is called by dragaccept per every move
+	function checkFiles(list) {
+		debug info: list;
+		if (typeof list != #array)
+			list = [list];
+		const availableFilenames = this.filter;
 
-        // Checks that all the names of the dragged files match the filter (file type)
-        function filterByFilename(inputFilename) {
-            for (var x in availableFilenames)
-                if (inputFilename like x) return true;
-            return false;
-        }
-        // Filter the list of dragged files
-        this.files = list.filter(filterByFilename);
-        // If there's more than 0 files in array
-        return this.files.length > 0;
-    }
+		// Checks that all the names of the dragged files match the filter (file type)
+		function filterByFilename(inputFilename) {
+			for (var x in availableFilenames)
+				if (inputFilename like x) return true;
+			return false;
+		}
+		// Filter the list of dragged files
+		this.files = list.filter(filterByFilename);
+		// If there's more than 0 files in array
+		return this.files.length > 0;
+	}
 
-    function attached() {
-        this.filter = (this.attributes["accept-drop"] || "*").split(";");
-        debug filter: this.filter;
-    }
+	function attached() {
+		this.filter = (this.attributes["accept-drop"] || "*").split(";");
+		debug filter: this.filter;
+	}
 
-    // User dragging file over element
-    event dragaccept(evt) {
-        stdout.println("dragaccept");
-        // If the data type is a file, and checkFile returns length of file over 0
-        // TODO: Stop calling checkFiles on every mouse pixel movement as it is currently running the whole of checkFiles when you do that
-        if (evt.draggingDataType == #file && this.checkFiles(evt.dragging))
-            return true; // accept only files
-        return false;
-    }
+	// User dragging file over element
+	event dragaccept(evt) {
+		stdout.println("dragaccept");
+		// If the data type is a file, and checkFile returns length of file over 0
+		// TODO: Stop calling checkFiles on every mouse pixel movement as it is currently running the whole of checkFiles when you do that
+		if (evt.draggingDataType == #file && this.checkFiles(evt.dragging))
+			return true; // accept only files
+		return false;
+	}
 
-    event dragenter(evt) {
-        this.attributes.addClass("active-target");
-        return true;
-    }
+	event dragenter(evt) {
+		this.attributes.addClass("active-target");
+		return true;
+	}
 
-    event dragleave(evt) {
-        this.attributes.removeClass("active-target");
-        return true;
-    }
+	event dragleave(evt) {
+		this.attributes.removeClass("active-target");
+		return true;
+	}
 
-    event drag(evt) {
-        // stdout.println(evt.x, evt.y);
-        return true;
-    }
+	event drag(evt) {
+		// stdout.println(evt.x, evt.y);
+		return true;
+	}
 
-    event drop(evt) {
-        stdout.println("drop");
-        this.attributes.removeClass("active-target");
-        // view.msgbox(#information, String.printf("Dropped:%V", this.files));
+	event drop(evt) {
+		stdout.println("drop");
+		this.attributes.removeClass("active-target");
+		// view.msgbox(#information, String.printf("Dropped:%V", this.files));
 
-        // -----------------------------------------------------------------------------
-        // Return last files/default
-        // -----------------------------------------------------------------------------
-        // var cppRawNames = CrunchImage.returnTestString();
-        // var cppFormattedNames = [];
-        // for (var x in cppFileNames) {
-        //     if (x.length > 0) {
-        //         cppFormattedNames.push(x)
-        //     }
-        // }
-        var printStringTest = "Previous files: " + CrunchImage.returnTestString();
-        view.msgbox(#information, printStringTest, "C++ Class Function Return");
+		// -----------------------------------------------------------------------------
+		// Return last files/default
+		// -----------------------------------------------------------------------------
+		// var cppRawNames = CrunchImage.returnTestString();
+		// var cppFormattedNames = [];
+		// for (var x in cppFileNames) {
+		//     if (x.length > 0) {
+		//         cppFormattedNames.push(x)
+		//     }
+		// }
+		var printStringTest = "Previous files: " + CrunchImage.returnTestString();
+		view.msgbox(#information, printStringTest, "C++ Class Function Return");
 
-        debug info: this.files;
+		debug info: this.files;
 
-        // Pass to C++
-        var voidMeLol = CrunchImage.uiCaptureInputImageLocation(this.files);
+		// Pass to C++
+		var voidMeLol = CrunchImage.uiSetInputImageLocation(this.files);
 
-        var printName = "New files: " + CrunchImage.returnTestString();
-        view.msgbox(#information, printName, "C++ Class Function Return");
-        return true;
-    }
+		var printName = "New files: " + CrunchImage.returnTestString();
+		view.msgbox(#information, printName, "C++ Class Function Return");
+		return true;
+	}
 
 }
 
-class SaveDialogue: Element {
+class ComputeAndSave: Element {
 
-    event click(evt) {
-        // FIXME: EXCEPTION: This causes
-        // FIXME: EXCEPTION: This causes
-        // FIXME: EXCEPTION: This causes
-        // FIXME: EXCEPTION: This causes
-        // ---------------------------------------------------------------------
-        // Exception thrown at 0x00007FF88CBD3D96 (ntdll.dll) in imagini-bit.exe: 0xC0000005: Access violation reading location 0xFFFFFFFFFFFFFFFC.
-        // ---------------------------------------------------------------------
-        // but it still opens the file explorer
-        
-        // var fn = view.selectFile(#save, "JPEG Image (*.jpg,*.jpeg)");
-        // if (fn) view.load(fn);
 
-        // const filter = "HTML Files (*.htm,*.html)|*.htm;*.html|All Files (*.*)|*.*";
-        // const defaultExt = "html";
-        // const initialPath = System.path(#USER_DOCUMENTS);
-        // const caption = "Select file to open";
-      
-    }
+
+	event click(evt) {
+		CrunchImage.fuiComputeSaveButtonclick();
+
+		// switch (this.buttonState) {
+		// 	// Compute
+		// 	case 0:
+		// 		// If C++ generates a matching-ish file size, let user save on next click
+		// 		if (CrunchImage.uiTriggerComputeJpeg() == "match") this.buttonState = 1;
+		// 		break;
+
+		// 		// Save as
+		// 	case 1:
+
+
+
+		// 		CrunchImage.uiSetOutputImageLocation();
+		// 		CrunchImage.uiTriggerSaveToDisk();
+		// 		break;
+		// 		// Default should never happen
+		// 	default:
+		// 		break;
+	}
+
+
+
+
+	// const filter = "HTML Files (*.htm,*.html)|*.htm;*.html|All Files (*.*)|*.*";
+	// const defaultExt = "html";
+	// const initialPath = System.path(#USER_DOCUMENTS);
+	// const caption = "Select file to open";
+
 }
+
+function nativeExplorerFile(saveOrOpen, fileOptions, defaultExtension, initialPath, dialogCaption) {
+	// FIXME: EXCEPTION: selectFile causes
+	// ---------------------------------------------------------------------
+	// Exception thrown at 0x00007FF88CBD3D96 (ntdll.dll) in imagini-bit.exe: 0xC0000005: Access violation reading location 0xFFFFFFFFFFFFFFFC.
+	// ---------------------------------------------------------------------
+	// but it still opens the file explorer
+
+	// -------------------------------------------------------------------------
+	// Example of passed parameters
+	// -------------------------------------------------------------------------
+	// const saveOrOpen = "#open";
+	// const fileOptions = "HTML Files (*.htm,*.html)|*.htm;*.html|All Files (*.*)|*.*";
+	// const defaultExtension = "html";
+	// const initialPath = System.path(#USER_DOCUMENTS);
+	// const dialogCaption = "Select file to open";
+
+	if (saveOrOpen == "save") {
+		var fn = view.selectFile(#save, fileOptions, defaultExtension, initialPath, dialogCaption);
+		if (fn) view.load(fn);
+	} else if (saveOrOpen == "open") {
+		var fn = view.selectFile(#open, fileOptions, defaultExtension, initialPath, dialogCaption);
+		if (fn) view.load(fn);
+	}
+}
+
+function nativeExplorerFolder(defaultFolder, dialogCaption) {
+	// Same as nativeExplorerFile, but less options
+
+	var fn = view.selectFolder(dialogCaption, defaultFolder);
+	if (fn) view.load(fn);
+}
+
 
 // -----------------------------------------------------------------------------
 // Default Window Size
