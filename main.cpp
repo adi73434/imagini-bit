@@ -1,31 +1,15 @@
+#include "MainFrame.h"
+
+#include "Globals.h"
+
+
 #include "sciter-x.h"
 #include "sciter-x-window.hpp"
 
+// #include "IncludeAllClasses.h"
 #include "CrunchImage.h"
 
-class frame : public sciter::window
-{
-  public:
-	frame() : window(SW_TITLEBAR | SW_RESIZEABLE | SW_CONTROLS | SW_MAIN | SW_ENABLE_DEBUG)
-	{
-	}
-	SOM_PASSPORT_BEGIN(frame);
-	SOM_FUNCS(SOM_FUNC(nativeMessage), SOM_FUNC(testCpp));
-	SOM_PASSPORT_END;
-
-	// function expsed to script:
-	sciter::string nativeMessage()
-	{
-		return WSTR("FromC++ - C++ World");
-	}
-
-	sciter::string testCpp()
-	{
-		return WSTR("FromC++ - G++");
-	}
-};
-
-#include "resources.cpp" // resources packaged into binary blob.
+#include "resources.cpp"
 
 int uimain(std::function<int()> run)
 {
@@ -33,6 +17,8 @@ int uimain(std::function<int()> run)
 	SciterSetOption(NULL, SCITER_SET_SCRIPT_RUNTIME_FEATURES,
 					ALLOW_FILE_IO | ALLOW_SOCKET_IO | ALLOW_EVAL | ALLOW_SYSINFO);
 	// SciterSetOption(NULL, SCITER_SET_SCRIPT_RUNTIME_FEATURES, ALLOW_SYSINFO );
+
+
 
 	// -------------------------------------------------------------------------
 	// Exposing Logic to UI
@@ -42,17 +28,25 @@ int uimain(std::function<int()> run)
 	//
 	// -------------------------------------------------------------------------
 
-	sciter::archive::instance().open(
-		aux::elements_of(resources)); // bind resources[] (defined in "resources.cpp") with the archive
 
-	sciter::om::hasset<frame> pwin = new frame();
+
+	// bind resources[] (defined in "resources.cpp") with the archive
+	sciter::archive::instance().open(aux::elements_of(resources));
+
+	// Create main window frame
+	sciter::om::hasset<MainFrame> pwin = new MainFrame();
 
 	// note: this:://app URL is dedicated to the sciter::archive content associated with the application
 	pwin->load(WSTR("this://app/main.htm"));
+
 	// or use this to load UI from
 	//  pwin->load( WSTR("file:///home/andrew/Desktop/Project/res/main.htm") );
 
 	pwin->expand();
+
+	// Pass these so they can be used globally... hwnd is needed for calling TiScript from C++, among other things
+	Globals::mainPwin = pwin;
+	Globals::mainHwnd = pwin->get_hwnd();
 
 	return run();
 }

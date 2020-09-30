@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
+// #include <string>
 #include <vector>
 #include "sciter-x.h"
-#include "sciter-x-window.hpp"
+// #include "sciter-x-window.hpp"
 
 class CrunchImage : public sciter::om::asset<CrunchImage>
 {
@@ -12,7 +12,7 @@ class CrunchImage : public sciter::om::asset<CrunchImage>
 	{
 	}
 
-
+	sciter::value testFuck();
 
 	// -------------------------------------------------------------------------
 	// SECTION: Set Input Image location URL
@@ -118,7 +118,6 @@ class CrunchImage : public sciter::om::asset<CrunchImage>
 	// Keep track of what compression parameters resulted in what JPEG size
 	std::vector<compressionParameterOutcomeSize> compressionParameterOutcomeSizeHistory;
 
-
 	// Image, placeholder. Get the original image file based on user image input location
 	// I think I'll need to create a variable to hold this, and then the function to shit it out into that var?
 	// idk. I am not programmer
@@ -133,11 +132,12 @@ class CrunchImage : public sciter::om::asset<CrunchImage>
 	// !SECTION
 
 
+
 	// -----------------------------------------------------------------------------
 	// SECTION: Expose to Sciter
 	// -----------------------------------------------------------------------------
 	SOM_PASSPORT_BEGIN(CrunchImage)
-	SOM_FUNCS(SOM_FUNC(TOUIReturnTestString), SOM_FUNC(FROMUISetInputImageLocation),
+	SOM_FUNCS(SOM_FUNC(testFuck), SOM_FUNC(TOUIReturnTestString), SOM_FUNC(FROMUISetInputImageLocation),
 			  SOM_FUNC(FROMUISetImageDesiredSize));
 	SOM_PASSPORT_END;
 	// !SECTION

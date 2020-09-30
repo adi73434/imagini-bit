@@ -1,6 +1,42 @@
 #include "CrunchImage.h"
-#include <stdio.h>
-#include <iostream>
+
+#include "Globals.h"
+
+#include <string>
+#include <vector>
+
+
+sciter::value CrunchImage::testFuck()
+{
+	// SelectNativeExplorer a;
+	// a.TOUISelectFile("open", "HTML Files (*.htm,*.html)|*.htm;*.html|All Files (*.*)|*.*", "html", "C:/",
+	// 				 "Select file to open");
+
+	// SelectNativeExplorer a;
+	// int b = a.callUiScript();
+
+	// int c = SelectNativeExplorer::returnOne();
+
+	// MainHwnd::mainHwnd;
+
+	// NOTE: I don't have any clue how HWND works
+	// if (SciterCall(MainHwnd::mainHwnd, "nativeExplorerFile", 2, params, &returnValue))
+	// sciter::value params[2] = { sciter::value(42), sciter::value(L"my text") };
+	// sciter::value returnValue;
+	// if (SciterCall(MainHwnd::mainHwnd, "nativeExplorerFile", 2, params, &returnValue))
+	// {
+	// 	int ri = returnValue.get(0);
+	// }
+	
+	// asdf->call_function("nativeExplorerFile");
+	// sciter::window::call_function("nativeExplorerFile");
+	// sciter::value callback = asdf->call_function()
+
+	Globals::mainPwin->call_function("nativeExplorerFile");
+	
+	return sciter::value();
+}
+
 
 // -------------------------------------------------------------------------
 // SECTION: Set Input Image location URL
@@ -156,10 +192,10 @@ sciter::value CrunchImage::TOUIShowGeneratedImageSizeInUi()
 // SECTION: Compression
 // -----------------------------------------------------------------------------
 
-unsigned char CrunchImage::readOriginalImageFile()
-{
-	// TODO: Read file from given URL. Store in memory
-}
+// unsigned char CrunchImage::readOriginalImageFile()
+// {
+// 	// TODO: Read file from given URL. Store in memory
+// }
 
 void CrunchImage::compressImageToJpeg()
 {

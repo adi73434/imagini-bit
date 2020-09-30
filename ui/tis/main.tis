@@ -90,7 +90,16 @@ class ComputeAndSave: Element {
 
 
 	event click(evt) {
-		CrunchImage.fuiComputeSaveButtonclick();
+
+		// var dragAndDropText = $(editor);
+		// var b = dragAndDropText.getText(); // calling our native method
+
+		// view.msgbox(#information, b, "Test");
+		CrunchImage.testFuck();
+		// var a = view.frame.lolWtf();
+
+		// view.msgbox(#information, a, "Test");
+		// CrunchImage.fuiComputeSaveButtonclick();
 
 		// switch (this.buttonState) {
 		// 	// Compute
@@ -122,7 +131,10 @@ class ComputeAndSave: Element {
 
 }
 
-function nativeExplorerFile(saveOrOpen, fileOptions, defaultExtension, initialPath, dialogCaption) {
+function nativeExplorerFile() {
+	view.msgbox(#information, "native explorer file", "Test");
+
+	// saveOrOpen, fileOptions, defaultExtension, initialPath, dialogCaption
 	// FIXME: EXCEPTION: selectFile causes
 	// ---------------------------------------------------------------------
 	// Exception thrown at 0x00007FF88CBD3D96 (ntdll.dll) in imagini-bit.exe: 0xC0000005: Access violation reading location 0xFFFFFFFFFFFFFFFC.
@@ -132,11 +144,11 @@ function nativeExplorerFile(saveOrOpen, fileOptions, defaultExtension, initialPa
 	// -------------------------------------------------------------------------
 	// Example of passed parameters
 	// -------------------------------------------------------------------------
-	// const saveOrOpen = "#open";
-	// const fileOptions = "HTML Files (*.htm,*.html)|*.htm;*.html|All Files (*.*)|*.*";
-	// const defaultExtension = "html";
-	// const initialPath = System.path(#USER_DOCUMENTS);
-	// const dialogCaption = "Select file to open";
+	const saveOrOpen = "open";
+	const fileOptions = "HTML Files (*.htm,*.html)|*.htm;*.html|All Files (*.*)|*.*";
+	const defaultExtension = "html";
+	const initialPath = System.path(#USER_DOCUMENTS);
+	const dialogCaption = "Select file to open";
 
 	if (saveOrOpen == "save") {
 		var fn = view.selectFile(#save, fileOptions, defaultExtension, initialPath, dialogCaption);
@@ -173,3 +185,8 @@ view.move(sx + (sw - w) / 2, sy + (sh - h) / 2, w, h, true);
 view.windowIcon = "assets/img/GWnonexNicoB.ico";
 // @click @on "#save" : {
 // }
+
+
+function alertUserTest() {
+	view.msgbox(#information, "Test, called from CPP", "Test");
+}
